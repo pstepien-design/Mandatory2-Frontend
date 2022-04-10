@@ -53,17 +53,19 @@
 
   }
   li:nth-child(1){
-    background-color: red;
+    background-color: #EA5045;
+    font-weight: bold;
     color: black;
     margin-left: 0;
     padding-left:20px;
+    width:160px;
     padding-right: 20px;
    height:100%;
    align-items: center;
 
   }
   li:last-child{
-    background-color: red;
+    background-color: #EA5045;
     margin-left: auto;
     padding-left:20px;
     padding-right: 20px;
