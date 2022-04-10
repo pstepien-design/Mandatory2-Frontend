@@ -5,23 +5,7 @@
     let items = [];
     let currentPage = 1;
     let pageSize = 5;
-  /* function pagination(array, current_page, items_per_page) {
-    let page = current_page || 1,
-    per_page = items_per_page || 5,
-    onPreviousPage = (page - 1) * per_page,
 
-    paginatedItems = array.slice(onPreviousPage).slice(0, items_per_page),
-    total_pages = Math.ceil(array.length/ per_page);
-    return{
-      page: page,
-      per_page: per_page,
-      previous_page: page-1 ? page-1 : null,
-      next_page: (total_pages> page) ? page+1 : null,
-      total: array.length,
-      total_pages: total_pages,
-      data: paginatedItems
-    }
-  } */
   onMount(async () => {
     const response = await fetch('http://localhost:3000/api/items');
     const { data: itemsArray } = await response.json();
