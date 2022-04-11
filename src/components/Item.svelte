@@ -1,5 +1,5 @@
 <script>
-  export let name, price, description,id;
+  export let name, price, description,id, photo;
   function addToCart() {
 		console.log('item bought');
   }
@@ -11,7 +11,7 @@
     {id}
   </p>
   <div class="column photo_column">
-    blabla
+    <img src="{photo}" alt="{name} photo">
   </div>
   <div class="column">
     <div class = "row">
@@ -112,7 +112,10 @@
   .photo_column{
   width: 100px;
   height: 100%;
-  background-color: #233249;
+  }
+  img{
+    height: 100px;
+    width: 100px;
   }
   .item__container{
     width:100%;
