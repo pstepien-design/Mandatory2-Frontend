@@ -1,7 +1,8 @@
 <script>
   export let name, price, description,id, photo;
+  import {addItemToCartStore} from '../stores/store.js';
   function addToCart() {
-		console.log('item bought');
+    addItemToCartStore(id, price, 1);
   }
  
 
@@ -22,7 +23,7 @@
       </div>
       <div class="column__item__price">
         <p class=item__price>
-        {price}
+        {price} DKK
         </p>
       </div>
 

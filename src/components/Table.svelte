@@ -1,5 +1,7 @@
 <script>
   import { onMount } from 'svelte';
+  import { serverUrl, getStoreItems } from '../stores/store.js';
+
   import Item from '../components/Item.svelte';
   import { paginate, LightPaginationNav } from 'svelte-paginate';
     let items = [];
@@ -10,7 +12,7 @@
       id: null,
       text: ''
     };
-    let questions = [
+    let filters = [
     {id: 1, text: 'SHOW ALL'},
 		{ id: 2, text: `<100` },
 		{ id: 3, text: `100-500` },
@@ -20,27 +22,26 @@
   let allItemsArray = [];
 
   function filterByPrice(){
+    currentPage = 1;
     items = allItemsArray;
 
    if(selected.id == 2){
     items = items.filter(item => item.price < 100);
    }
    else if(selected.id ==3){
-     console.log('here');
      items = items.filter(item => item.price>= 100 && item.price<=500);
    }
    else if(selected.id ==4){
     items = items.filter(item => item.price >500);
    }
-   if(items.length <= 0){
-     console.log("No items")
+   else{
+    console.log('empty')
    }
   }
 
   onMount(
     async () => {
-    const response = await fetch('http://localhost:3000/api/items');
-    const { data: itemsArray } = await response.json();
+    let itemsArray = await getStoreItems($serverUrl);
     items = itemsArray;
     allItemsArray = itemsArray;
      });
@@ -56,9 +57,9 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
     </div>
     <p class="filter__price"> PRICE </p>
     <select class="filter__price__selector" bind:value={selected} on:change="{filterByPrice}">
-      {#each questions as question}
-        <option value={question}>
-          {question.text}
+      {#each filters as filter}
+        <option value={filter}>
+          {filter.text}
         </option>
       {/each}
     </select>
