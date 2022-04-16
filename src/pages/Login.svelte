@@ -43,7 +43,6 @@
     });
   };
   onMount(async () => {
-
     if (sessionStorage.getItem('accessToken') !== 'false') {
       navigate('shop');
     }

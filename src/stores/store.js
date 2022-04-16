@@ -13,6 +13,10 @@ export const getStoreItems = async (url) => {
 
 export const isAuthenticated = async (url) => {
  const userToken = sessionStorage.getItem('accessToken');
+ if(userToken === 'false'){
+   return false;
+ }
+ else{
  const res = await fetch(`${url}/auth/authenticateToken`, {
   method: 'POST',
   body: JSON.stringify({
@@ -24,6 +28,7 @@ export const isAuthenticated = async (url) => {
 });
 const json = await res.json();
 return json.isAuthorized;
+ }
 }
 
 

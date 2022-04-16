@@ -15,8 +15,8 @@
   })
     
   function logOut(){
-      isAuthorized = false;
-    sessionStorage.removeItem('accessToken');
+    isAuthorized = false;
+    sessionStorage.setItem('accessToken', false);
     localStorage.removeItem('cart');
    }
    
