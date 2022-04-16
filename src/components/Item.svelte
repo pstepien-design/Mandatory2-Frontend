@@ -1,9 +1,22 @@
 <script>
   export let name, price, description,id, photo;
   import {addItemToCartStore} from '../stores/store.js';
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
   function addToCart() {
     addItemToCartStore(id, price, 1);
+    const text = 'Item was successfuly added to the cart'
+    displayNotification(text);
   }
+
+  const displayNotification = (text) => {
+    addNotification({
+    text: text,
+    position: 'top-center',
+    type: 'success',
+    removeAfter: 2000,
+    });
+  };
  
 
 </script>

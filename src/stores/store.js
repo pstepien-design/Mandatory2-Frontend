@@ -3,23 +3,34 @@ import {writable} from 'svelte/store'
 
 export const serverUrl = writable('http://localhost:3000')
 
+
 export const getStoreItems = async (url) => {
   const response = await fetch(`${url}/api/items`);
   const { data: itemsArray } = await response.json();
   return itemsArray; 
 }
 
+
+export const isAuthenticated = async (url) => {
+ const userToken = sessionStorage.getItem('accessToken');
+ const res = await fetch(`${url}/auth/authenticateToken`, {
+  method: 'POST',
+  body: JSON.stringify({
+    userToken
+  }),
+  headers: {
+    'content-type': 'application/json',
+  },
+});
+const json = await res.json();
+return json.isAuthorized;
+}
+
+
+
 export const saveAuthorizedStatus = (value) => {
-  sessionStorage.setItem('isLogged', value);
+  sessionStorage.setItem('accessToken', value);
 }
-
-export const getAuthorizedStatus = ()=> {
-  if(!sessionStorage['isLogged']){
-    saveAuthorizedStatus(false);
-  }
-  return sessionStorage.getItem('isLogged');
-}
-
 
 
 let Item = {
@@ -30,8 +41,14 @@ quantity: null,
 
 let Cart = {
 items: [],
+total: 0
 }
-let items = JSON.parse(localStorage.getItem('cart')).items;
+let items = [];
+
+if(localStorage['cart']){
+items = JSON.parse(localStorage.getItem('cart')).items;
+}
+
 
 export const initializeCartInStorage = () => {
   localStorage.setItem('cart', JSON.stringify(Cart))
@@ -46,7 +63,8 @@ items[index].quantity++;
 else{
 items.push(Item);
 }
-Cart = {items: items}
+let total = countTotalPrice();
+Cart = {items: items, total: total}
 localStorage.setItem('cart', JSON.stringify(Cart));
 } 
 
@@ -63,8 +81,8 @@ export const removeItemFromCart = (id) => {
     }
   }
   items.splice(index, 1);
-  console.log(items);
-  Cart = {items: items}
+  let total = countTotalPrice();
+  Cart = {items: items, total: total}
   localStorage.setItem('cart', JSON.stringify(Cart));
 }
 
@@ -76,8 +94,8 @@ export const changeItemsQuantity = (id, quantity) => {
     }
   }
   items[index].quantity = quantity;
-  console.log(items);
-  Cart = {items: items}
+  let total = countTotalPrice();
+  Cart = {items: items, total: total}
   localStorage.setItem('cart', JSON.stringify(Cart));
 }
 
@@ -85,12 +103,26 @@ export const isCartEmpty = () => {
   return JSON.parse(localStorage.getItem('cart')).items.length <= 0;
 }
 
-export const countTotalPrice = () => {
+const countTotalPrice = () => {
   let total = 0;
 for(const element of items){
   total += (element.price*element.quantity)
 }
 return total;
+}
+export const removeCart =() =>{
+  Cart.items=[];
+  Cart.total = 0;
+  localStorage.setItem('cart', JSON.stringify(Cart));
+}
+
+export const getTotalPrice = () => {
+  if(JSON.parse(localStorage.getItem('cart')).items.length>0){
+  return JSON.parse(localStorage.getItem('cart')).total
+  }
+  else{
+    return 0;
+  }
 }
 
 const isItemInCart = (array, item) => {

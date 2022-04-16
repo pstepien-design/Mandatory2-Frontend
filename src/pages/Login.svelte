@@ -4,7 +4,7 @@
   import { onMount } from 'svelte';
   import { getNotificationsContext } from 'svelte-notifications';
   const { addNotification } = getNotificationsContext();
-  import { getAuthorizedStatus, serverUrl } from '../stores/store.js';
+  import { serverUrl } from '../stores/store.js';
 
   let email = '';
   let password = '';
@@ -21,33 +21,30 @@
       },
     });
     const json = await res.json();
-    checkResult(json);
+    const accesToken = (json).accessToken
+    saveAuthorizedStatus(accesToken)
+   checkResult(); 
   }
-  function checkResult(result) {
-    if (result.isAuthorized === true) {
-      saveAuthorizedStatus(true);
-      navigate('shop');
-      window.location.assign('/');
-    } else {
-      saveAuthorizedStatus(false);
+  function checkResult() {
+    if (sessionStorage.getItem('accessToken') === 'false') {
       displayNotification();
+    } else {
+      navigate('/shop');
+      window.location.reload(); 
     }
   }
 
-  /*  function displayNotification() {
-   
-  }
- */
   const displayNotification = () => {
     addNotification({
     text: `It seems like you used wrong credentials or the account doesn't exist, try again!`,
     position: 'top-center',
+    type: 'danger',
+    removeAfter: 3000,
     });
   };
   onMount(async () => {
-    const isLogged = getAuthorizedStatus();
 
-    if (isLogged === 'true') {
+    if (sessionStorage.getItem('accessToken') !== 'false') {
       navigate('shop');
     }
   });
@@ -58,9 +55,9 @@
   <p class="login__text">Type your email and password to login</p>
   <form on:submit|preventDefault={login} class="login__form">
     <p class="login__label">E-mail</p>
-    <input type="email" bind:value={email} />
+    <input type="email" required='required' bind:value={email} />
     <p class="login__label">Password</p>
-    <input type="password" bind:value={password} />
+    <input type="password" required='required' bind:value={password} />
     <div>
       <button type="submit"> Login </button>
     </div>

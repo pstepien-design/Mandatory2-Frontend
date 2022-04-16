@@ -1,6 +1,8 @@
 <script>
-  export let name, price, description, id, photo, quantity;
+  export let name, price, id, photo, quantity;
   import { removeItemFromCart, changeItemsQuantity } from '../stores/store.js';
+  import { getNotificationsContext } from 'svelte-notifications';
+  const { addNotification } = getNotificationsContext();
 
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -23,14 +25,27 @@
 	];
 
   function removeFromCart() {
+    const text = 'Item was successfuly removed from the cart. Page will reload soon'
+    displayNotification(text);
     removeItemFromCart(id);
-    window.location.assign('/');
+    setTimeout(window.location.reload.bind(window.location), 2000);
   }
   function changeQuantity(){
     console.log(selected);
     changeItemsQuantity(id, selected.number);
-    window.location.assign('/');
+    const text = 'Quantity of items was successfuly changed in the cart. Page will reload soon'
+    displayNotification(text);
+   setTimeout(window.location.reload.bind(window.location), 2000);
   }
+
+  const displayNotification = (text) => {
+    addNotification({
+    text: text,
+    position: 'top-center',
+    type: 'success',
+    removeAfter: 2000,
+    });
+  };
 </script>
 
 <div class="item__container">
@@ -100,12 +115,7 @@
     flex-direction: row;
     justify-content: flex-end;
   }
-  .item__description {
-    font-weight: bold;
-    font-size: 15px;
-    margin-top: 2px;
-    text-transform: capitalize;
-  }
+
   .item__quantity {
     font-weight: bold;
     font-size: 15px;

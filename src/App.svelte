@@ -3,10 +3,13 @@
   import Notifications from 'svelte-notifications';
   import Footer from './components/Footer.svelte';
   import Navbar from './components/Navbar.svelte';
-  import { initializeCartInStorage } from './stores/store';
+  import { saveAuthorizedStatus, initializeCartInStorage } from './stores/store';
   import { onMount } from 'svelte';
 
   onMount(() => {
+    if(!sessionStorage['accessToken']){
+      saveAuthorizedStatus(false);
+    }
     if (!localStorage['cart']) {
       initializeCartInStorage();
     }

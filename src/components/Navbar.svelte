@@ -1,22 +1,21 @@
 <script>
     import { Router, Link, Route } from 'svelte-navigator';
-    import { onMount } from 'svelte';
-    import { saveAuthorizedStatus, getAuthorizedStatus  } from '../stores/store';
+    import {onMount} from 'svelte';
+    import { isAuthenticated, serverUrl  } from '../stores/store.js'; 
+    import ProtectedRoute from './ProtectedRoute.svelte'
     import Main from '../pages/Main.svelte';
     import Login from '../pages/Login.svelte';
     import Cart from '../pages/Cart.svelte'
 
-    export let loggedNavbar = '';
-    onMount(() => {
-      loggedNavbar = getAuthorizedStatus();
-  });
+    $: isAuthorized = false;
 
-
+  onMount(async() => {
+  isAuthorized = await isAuthenticated($serverUrl);
+  })
     
-   
-    function logOut(){
-     saveAuthorizedStatus('false');
-     loggedNavbar = false;
+  function logOut(){
+      isAuthorized = false;
+    sessionStorage.removeItem('accessToken');
    }
    
 </script>
@@ -27,7 +26,7 @@
       <li>
         <p>MYSHOP</p>
       </li>
-      {#if loggedNavbar === "true"}
+      {#if isAuthorized === true}
       <li>
         <Link to="/shop">
         <p class="link">HOME</p>
@@ -45,11 +44,11 @@
       </li>
       {/if}
     </ul>
+    <Route path="/" component={Login} />
+    <ProtectedRoute path="/shop" component={Main} />
+    <ProtectedRoute path="/cart" component={Cart}/>
   </nav>
-  <Route path="/shop" component={Main} />
-  <Route path="/" component={Login} />
-  <Route path="/cart" component={Cart} />
-</Router>
+  </Router>
 
 <style>
   li {
