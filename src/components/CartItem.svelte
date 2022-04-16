@@ -1,5 +1,5 @@
 <script>
-  export let name, price, id, photo, quantity;
+  export let name, price, id, color, quantity;
   import { removeItemFromCart, changeItemsQuantity } from '../stores/store.js';
   import { getNotificationsContext } from 'svelte-notifications';
   const { addNotification } = getNotificationsContext();
@@ -52,9 +52,7 @@
   <p class="item__id">
     {id}
   </p>
-  <div class="column photo_column">
-    <img src={photo} alt="{name} photo" />
-  </div>
+  <div class="column photo_column" style="background-color:{color}"/>
   <div class="column">
     <div class="row">
       <div class="column__item__name">
@@ -180,10 +178,6 @@
   .photo_column {
     width: 100px;
     height: 100%;
-  }
-  img {
-    height: 100px;
-    width: 100px;
   }
   .item__container {
     width: 100%;

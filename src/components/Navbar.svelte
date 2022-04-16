@@ -1,5 +1,6 @@
 <script>
     import { Router, Link, Route } from 'svelte-navigator';
+    import FaShoppingCart from 'svelte-icons/fa/FaShoppingCart.svelte'
     import {onMount} from 'svelte';
     import { isAuthenticated, serverUrl  } from '../stores/store.js'; 
     import ProtectedRoute from './ProtectedRoute.svelte'
@@ -16,6 +17,7 @@
   function logOut(){
       isAuthorized = false;
     sessionStorage.removeItem('accessToken');
+    localStorage.removeItem('cart');
    }
    
 </script>
@@ -23,7 +25,7 @@
 <Router>
   <nav>
     <ul hidden>
-      <li>
+      <li style="{isAuthorized === false ? 'margin-right: 86vw' : ''}">
         <p>MYSHOP</p>
       </li>
       {#if isAuthorized === true}
@@ -39,7 +41,9 @@
       </li>
       <li>
         <Link to="/cart">
-        <p class="link">CART</p>
+          <div class="icon">
+        <FaShoppingCart/>
+      </div>
       </Link>
       </li>
       {/if}
@@ -60,6 +64,12 @@
     margin-left: 20px;
     margin-right: 20px;
   }
+  .icon{
+    height:8vh;
+    margin-top: 20%;
+    color: black;
+  }
+
 
   .link {
     color: white;
@@ -79,7 +89,7 @@
     white-space: nowrap;
     width: 100%;
     background-color: #233249;
-    height: 100px;
+    height: 12vh;
     padding: 0;
     overflow: auto;
   }
@@ -88,9 +98,9 @@
     font-weight: bold;
     color: black;
     margin-left: 0;
-    padding-left: 20px;
-    width: 160px;
-    padding-right: 20px;
+    padding-left: 2vw;
+    width: 10vw;
+    padding-right: 2vw;
     height: 100%;
     align-items: center;
 
@@ -98,8 +108,8 @@
   li:last-child {
     background-color: #ea5045;
     margin-left: auto;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 2vw;
+    padding-right: 2vw;
     height: 100%;
     color: black;
     float: left;

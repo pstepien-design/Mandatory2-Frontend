@@ -87,8 +87,8 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
   }
   
   .column:nth-child(1) {
-    width: 200px;
-    height: calc(100vh - 168px);
+    width: 14vw;
+    height: 83vh;
     background-color: #c4c4c4;
   }
   .filter__price__selector{
@@ -102,16 +102,17 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
     text-align: center;
   }
   .column:nth-child(2) {
-    width: calc(100% - 200px);
+    width: 86vw;
     height: 100%;
   }
   .row_paginator {
-    height: 45px;
+    height: 5vh;
     background-color: #e5e5e5;
+    margin-bottom: 0.5vh;
   }
   .row {
     width: 100vw;
-    height: calc(100vh - 168px);
+    height: 83vh;
   }
 
   .row_filter,
@@ -119,7 +120,7 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
     border-bottom: 1px solid #000000;
   }
   .filters {
-    padding: 10px;
+    padding: 1vh;
     color: #ea5045;
     font-size: 22px;
     text-align: center;

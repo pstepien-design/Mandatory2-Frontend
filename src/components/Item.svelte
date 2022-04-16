@@ -1,5 +1,5 @@
 <script>
-  export let name, price, description,id, photo;
+  export let name, price, description,id, color;
   import {addItemToCartStore} from '../stores/store.js';
   import { getNotificationsContext } from 'svelte-notifications';
   const { addNotification } = getNotificationsContext();
@@ -24,8 +24,7 @@
   <p class="item__id">
     {id}
   </p>
-  <div class="column photo_column">
-    <img src="{photo}" alt="{name} photo">
+  <div class="column photo_column" style="background-color:{color}">
   </div>
   <div class="column">
     <div class = "row">
@@ -127,13 +126,10 @@
   width: 100px;
   height: 100%;
   }
-  img{
-    height: 100px;
-    width: 100px;
-  }
+
   .item__container{
     width:100%;
-    height: 100px;
+    height: 15vh;
   }
   p{
     margin: 0;

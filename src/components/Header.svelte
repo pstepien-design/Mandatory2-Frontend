@@ -5,7 +5,7 @@
 
 <style>
   div {
-    height: 50px;
+    height: 5vh;
     background-color: #E5E5E5;
     color: #000000;
     width: 100%;

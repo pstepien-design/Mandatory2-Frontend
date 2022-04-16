@@ -51,7 +51,11 @@ items = JSON.parse(localStorage.getItem('cart')).items;
 
 
 export const initializeCartInStorage = () => {
-  localStorage.setItem('cart', JSON.stringify(Cart))
+  let emptyCart = {
+    items: [],
+    total: 0
+    }
+  localStorage.setItem('cart', JSON.stringify(emptyCart))
 }
 
  export const addItemToCartStore = (id, price, quantity) =>{
@@ -111,7 +115,8 @@ for(const element of items){
 return total;
 }
 export const removeCart =() =>{
-  Cart.items=[];
+  items = [];
+  Cart.items=items;
   Cart.total = 0;
   localStorage.setItem('cart', JSON.stringify(Cart));
 }
